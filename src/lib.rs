@@ -77,7 +77,7 @@ pub const SIG_SIZE: usize = 96;
 
 /// A public key.
 #[derive(Deserialize, Serialize, Copy, Clone, PartialEq, Eq)]
-pub struct PublicKey(#[serde(with = "serde_impl::projective_publickey")] G1Projective);
+pub struct PublicKey(#[serde(with = "serde_impl::projective_publickey")] pub G1Projective);
 
 impl Hash for PublicKey {
     fn hash<H: Hasher>(&self, state: &mut H) {
@@ -163,7 +163,7 @@ impl PublicKey {
 /// A public key share.
 #[cfg_attr(feature = "codec-support", derive(codec::Encode, codec::Decode))]
 #[derive(Deserialize, Serialize, Clone, Copy, PartialEq, Eq, Hash, Ord, PartialOrd)]
-pub struct PublicKeyShare(PublicKey);
+pub struct PublicKeyShare(pub PublicKey);
 
 impl fmt::Debug for PublicKeyShare {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -306,7 +306,7 @@ impl SignatureShare {
 /// serialization in insecure contexts. To enable both use the `::serde_impl::SerdeSecret`
 /// wrapper which implements both `Deserialize` and `Serialize`.
 #[derive(PartialEq, Eq, Clone)]
-pub struct SecretKey(Scalar);
+pub struct SecretKey(pub Scalar);
 
 impl Zeroize for SecretKey {
     fn zeroize(&mut self) {
@@ -412,7 +412,7 @@ impl SecretKey {
 /// serialization in insecure contexts. To enable both use the `::serde_impl::SerdeSecret`
 /// wrapper which implements both `Deserialize` and `Serialize`.
 #[derive(Clone, PartialEq, Eq, Default)]
-pub struct SecretKeyShare(SecretKey);
+pub struct SecretKeyShare(pub SecretKey);
 
 /// Can be used to create a new random instance of `SecretKeyShare`. This is only useful for testing
 /// purposes as such a key has not been derived from a `SecretKeySet`.
@@ -601,7 +601,7 @@ impl fmt::Debug for DecryptionShare {
 pub struct PublicKeySet {
     /// The coefficients of a polynomial whose value at `0` is the "master key", and value at
     /// `i + 1` is key share number `i`.
-    commit: Commitment,
+    pub commit: Commitment,
 }
 
 impl Hash for PublicKeySet {

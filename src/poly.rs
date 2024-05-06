@@ -437,7 +437,7 @@ impl Poly {
 pub struct Commitment {
     /// The coefficients of the polynomial.
     #[serde(with = "super::serde_impl::projective_publickeyset")]
-    pub(super) coeff: Vec<G1Projective>,
+    pub coeff: Vec<G1Projective>,
 }
 
 impl PartialOrd for Commitment {
